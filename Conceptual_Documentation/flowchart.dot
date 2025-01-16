@@ -1,0 +1,17 @@
+digraph REST_vs_SOAP {
+  rankdir=TB;
+  node [shape=box, width=1.5, height=0.5]; 
+  
+  Start [label="High Security & Data Integrity Required?", shape=diamond];
+  Performance [label="Fast Performance & Lightweight Architecture?", shape=diamond];
+  Stateful [label="Stateful Operations or Transaction Order Needed?", shape=diamond];
+  REST [label="REST", fillcolor="#ADD8E6", style=filled];
+  SOAP [label="SOAP", fillcolor="#90EE90", style=filled];
+
+  Start -> SOAP [label="YES"];
+  Start -> Performance [label="NO"];
+  Performance -> REST [label="YES"];
+  Performance -> Stateful [label="NO"];
+  Stateful -> SOAP [label="YES"];
+  Stateful -> REST [label="NO"];
+}
