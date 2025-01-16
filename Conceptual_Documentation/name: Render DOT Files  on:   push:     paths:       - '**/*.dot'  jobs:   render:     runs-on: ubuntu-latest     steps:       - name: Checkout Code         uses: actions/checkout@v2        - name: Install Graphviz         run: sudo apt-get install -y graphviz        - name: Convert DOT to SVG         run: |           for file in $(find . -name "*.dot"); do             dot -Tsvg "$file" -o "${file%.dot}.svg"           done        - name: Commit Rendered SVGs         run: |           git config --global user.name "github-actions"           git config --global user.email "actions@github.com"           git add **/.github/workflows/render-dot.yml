@@ -1,0 +1,30 @@
+name: Render DOT Files
+
+on:
+  push:
+    paths:
+      - '**/*.dot'
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Install Graphviz
+        run: sudo apt-get install -y graphviz
+
+      - name: Convert DOT to SVG
+        run: |
+          for file in $(find . -name "*.dot"); do
+            dot -Tsvg "$file" -o "${file%.dot}.svg"
+          done
+
+      - name: Commit Rendered SVGs
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add **/*.svg
+          git commit -m "Rendered DOT files to SVG"
+          git push
